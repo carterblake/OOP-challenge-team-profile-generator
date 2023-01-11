@@ -1,6 +1,10 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
-const managerClass  = require('./roles/manager');
+const managerClass  = require('./roles/manager.js');
+const engineerClass = require('./roles/engineer.js');
+const internClass = require('./roles/intern.js');
+
+dreamTeam = [];
 
 function runFile () {
     function buildTeam () {
@@ -15,17 +19,14 @@ function runFile () {
             switch(userResponse.addRole) {
                 case 'manager':
                 addManager();
-                console.log('manager selected');
                 break;
                 
                 case 'engineer':
                 addEngineer();
-                console.log('engineer selected');
                 break;
 
                 case 'intern':
                 addIntern();
-                console.log('intern selected');
                 break;
                 
                 case 'done':
@@ -59,17 +60,68 @@ function runFile () {
         }
     ]).then(response => {
         const manager = new managerClass (response.managerName, response.managerId, response.managerEmail, response.managerOfficeNum);
+        dreamTeam.push(manager);
+        buildTeam();
     });}
     
     function addEngineer() {
-        console.log('engineer function ran');
+        inquirer.prompt ([
+            {
+                type: 'input',
+                name: 'engineerName',
+                message: 'enter engineer\'s name please'
+            },
+            {
+                type: 'input',
+                name: 'engineerId',
+                message: 'what is the engineer\'s employee id?'
+            },
+            {
+                type: 'input',
+                name: 'engineerEmail',
+                message: 'what is the engineer\'s email address?'
+            },
+            {
+                type: 'input',
+                name: 'engineerGithub',
+                message: 'what is the engineer\'s office number?'
+            }
+        ]).then(response => {
+            const engineer = new engineerClass (response.engineerName, response.engineerId, response.engineerEmail, response.engineerGithub);
+            dreamTeam.push(engineer);
+            buildTeam();
+        });
     }
 
     function addIntern() {
-        console.log('intern function ran');
+        inquirer.prompt ([
+            {
+                type: 'input',
+                name: 'internName',
+                message: 'enter intern\'s name please'
+            },
+            {
+                type: 'input',
+                name: 'internId',
+                message: 'what is the intern\'s employee id?'
+            },
+            {
+                type: 'input',
+                name: 'internEmail',
+                message: 'what is the intern\'s email address?'
+            },
+            {
+                type: 'input',
+                name: 'internSchool',
+                message: 'what is the intern\'s school?'
+            }
+        ]).then(response => {
+            const intern = new internClass (response.internName, response.internId, response.internEmail, response.internSchool);
+            dreamTeam.push(intern);
+            buildTeam();
+        });
     }
 buildTeam();
 }
 
 runFile();
-console.log('ran');
