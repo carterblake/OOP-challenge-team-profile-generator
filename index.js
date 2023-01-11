@@ -1,6 +1,6 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
-const manager = require('./roles/manager.js');
+const managerClass  = require('./roles/manager');
 
 function runFile () {
     function buildTeam () {
@@ -54,19 +54,19 @@ function runFile () {
         },
         {
             type: 'input',
-            name: 'managerOffice',
+            name: 'managerOfficeNum',
             message: 'what is the manager\'s office number?'
         }
     ]).then(response => {
-        const manager = new manager(response.managerName, response.managerId, response.managerEmail, response.managerOffice);
+        const manager = new managerClass (response.managerName, response.managerId, response.managerEmail, response.managerOfficeNum);
     });}
     
     function addEngineer() {
-        console.log('engineer selected');
+        console.log('engineer function ran');
     }
 
     function addIntern() {
-        console.log('intern selected');
+        console.log('intern function ran');
     }
 buildTeam();
 }
